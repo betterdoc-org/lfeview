@@ -53,7 +53,7 @@ config :lfeview, LfeviewWeb.Endpoint,
       ~r{priv/gettext/.*(po)$},
       ~r{lib/lfeview_web/views/.*(ex)$},
       ~r{lib/lfeview_web/templates/.*(eex)$},
-      ~r{lib/my_app_web/live/.*(ex)$}
+      ~r{lib/lfeview_web/live/.*(ex)$}
     ]
   ]
 

@@ -16,7 +16,7 @@ config :lfeview, LfeviewWeb.Endpoint,
   secret_key_base: "xqsbDgcIwJ+yx19C6TuXzn2TsV3SnnKadlEdGGHqfPxgNZ0b+rT6PMLW8/tJjLv/",
   render_errors: [view: LfeviewWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Lfeview.PubSub, adapter: Phoenix.PubSub.PG2],
-  signing_salt: "b1E+YFNSBM3u0vUiGvYmRwlFATVJMmj+"
+  live_view: [signing_salt: "b1E+YFNSBM3u0vUiGvYmRwlFATVJMmj+"]
 
 # Configures Elixir's Logger
 config :logger, :console,

@@ -1,5 +1,15 @@
 /* This file is for your main application css. */
+table.board {
+    border: 2px solid black
+}
 
-@import "./phoenix.css";
+table.board td {
+    empty-cells: show;
+    width: 5px;
+    height: 5px;
+    border: 0.5px solid black;
+}
 
-@import "../../deps/phoenix_live_view/assets/css/live_view.css";
+table.board td.alife{
+    background-color: black
+}
