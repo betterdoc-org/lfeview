@@ -40,3 +40,9 @@ npm-debug.log
 # secrets files as long as you replace their contents by environment
 # variables.
 /config/*.secret.exs
+
+# language support work dirs (VS code)
+/.elixir_ls
+
+# sampling results
+/samples

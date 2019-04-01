@@ -3,8 +3,8 @@ defmodule LfeviewWeb.BoardView do
   alias Lfeview.Cell
   require Logger
 
-  @default_width 40
-  @default_height 40
+  @default_width 50
+  @default_height 50
 
   def mount(_session, socket) do
     board = Cell.create_board(@default_width, @default_height)
@@ -12,6 +12,7 @@ defmodule LfeviewWeb.BoardView do
     {:ok,
      socket
      |> assign(:board, board)
+     |> assign(:running, false)
      |> assign(:timer, nil)
      |> assign(:generation, 0)}
   end
@@ -36,55 +37,39 @@ defmodule LfeviewWeb.BoardView do
     """
   end
 
-  def handle_event("start", _, socket) do
-    case socket.assigns.timer do
-      nil ->
-        {:ok, timer_ref} = :timer.send_interval(10, self(), :tick)
-        {:noreply, socket |> assign(:timer, timer_ref)}
-
-      _ ->
-        Logger.info(fn -> "Ignoring start as time is already running." end)
-        {:noreply, socket}
-    end
-  end
-
+  @spec handle_info(:tick, Phoenix.LiveView.Socket.t()) :: {:noreply, any()}
   def handle_info(:tick, socket) do
-    {:noreply, do_tick(socket)}
+    if socket.assigns.running do
+      {:noreply, do_tick(socket, true)}
+    else
+      {:noreply, do_tick(socket)}
+    end
   end
 
-  def handle_event("stop", session, socket) do
-    case socket.assigns.timer do
-      nil ->
-        {:noreply, socket}
-
-      t_ref ->
-        :timer.cancel(t_ref)
-        {:noreply, socket |> assign(:timer, nil)}
+  def handle_event("start", _, socket) do
+    if not socket.assigns.running do
+      :timer.send_after(10, self(), :tick)
+      {:noreply, socket |> assign(:running, true)}
+    else
+      {:noreply, socket}
     end
+  end
+
+  def handle_event("stop", _session, socket) do
+    {:noreply, socket |> assign(:running, false)}
   end
 
   def handle_event("tick", _session, socket) do
-    board = Cell.tick(socket.assigns.board)
-
     {:noreply, do_tick(socket)}
   end
 
-  def do_tick(socket) do
-    board = Cell.tick(socket.assigns.board)
+  def handle_event("clear", _session, socket) do
+    board = Cell.create_board(@default_width, @default_height)
 
     socket
     |> assign(:board, board)
-    |> assign(:generation, socket.assigns.generation + 1)
-  end
-
-  def handle_event("clear", session, socket) do
-    {_, socket} = handle_event("stop", session, socket)
-    board = Cell.create_board(@default_width, @default_height)
-
-    {:noreply,
-     socket
-     |> assign(:board, board)
-     |> assign(:generation, 0)}
+    |> assign(:running, false)
+    |> assign(:generation, 0)
   end
 
   def handle_event("swap-state-" <> xy, _session, socket),
@@ -104,5 +89,17 @@ defmodule LfeviewWeb.BoardView do
     {:noreply,
      socket
      |> assign(:board, board)}
+  end
+
+  defp do_tick(socket, schedule_next_tick \\ false) do
+    board = Cell.tick(socket.assigns.board)
+
+    if schedule_next_tick do
+      :timer.send_after(10, self(), :tick)
+    end
+
+    socket
+    |> assign(:board, board)
+    |> assign(:generation, socket.assigns.generation + 1)
   end
 end
