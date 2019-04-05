@@ -1,4 +1,4 @@
-defmodule Lfeview.Cell do
+defmodule Lfeview.Board do
   require Logger
 
   def create_board(width, height), do: {[], width - 1, height - 1}
