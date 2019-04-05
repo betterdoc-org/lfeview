@@ -18,8 +18,7 @@ defmodule LfeviewWeb.Router do
   scope "/", LfeviewWeb do
     pipe_through(:browser)
 
-    live("/board", BoardView)
-    get("/", PageController, :index)
+    live("/", BoardView)
   end
 
   # Other scopes may use custom stacks.
