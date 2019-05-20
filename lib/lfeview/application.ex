@@ -8,8 +8,6 @@ defmodule Lfeview.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Start the Ecto repository
-      Lfeview.Repo,
       # Start the endpoint when the application starts
       LfeviewWeb.Endpoint
       # Starts a worker by calling: Lfeview.Worker.start_link(arg)
