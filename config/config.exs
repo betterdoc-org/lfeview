@@ -7,9 +7,6 @@
 # General application configuration
 use Mix.Config
 
-config :lfeview,
-  ecto_repos: [Lfeview.Repo]
-
 # Configures the endpoint
 config :lfeview, LfeviewWeb.Endpoint,
   url: [host: "localhost"],
