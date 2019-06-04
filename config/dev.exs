@@ -66,11 +66,3 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-# Configure your database
-config :lfeview, Lfeview.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "lfeview_dev",
-  hostname: "localhost",
-  pool_size: 10

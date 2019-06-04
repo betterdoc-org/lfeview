@@ -24,14 +24,4 @@ defmodule LfeviewWeb.ChannelCase do
       @endpoint LfeviewWeb.Endpoint
     end
   end
-
-  setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Lfeview.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Lfeview.Repo, {:shared, self()})
-    end
-
-    :ok
-  end
 end

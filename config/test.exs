@@ -8,11 +8,3 @@ config :lfeview, LfeviewWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
-
-# Configure your database
-config :lfeview, Lfeview.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "lfeview_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
